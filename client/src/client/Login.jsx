@@ -28,18 +28,23 @@ export default class UserRegister extends Component {
 				console.log(res.data);
 				let role = '';
 				let status = '';
+				let _id = '';
 				if (res.data.role === 'User') {
-					role += res.data.role;
-					status += res.data.status;
+					role += JSON.stringify(res.data.role);
+					status += JSON.stringify(res.data.status);
+					_id += JSON.stringify(res.data._id);
 					localStorage.setItem('role', role);
 					localStorage.setItem('status', status);
+					localStorage.setItem('_id', _id);
 					alert('Welcome User: ' + res.data.username);
 					window.location.assign('/');
 				} else if (res.data.role === 'Employee' && res.data.status === 'Active') {
-					role += res.data.role;
-					status += res.data.status;
+					role += JSON.stringify(res.data.role);
+					status += JSON.stringify(res.data.status);
+					_id += JSON.stringify(res.data._id);
 					localStorage.setItem('role', role);
 					localStorage.setItem('status', status);
+					localStorage.setItem('_id', _id);
 					alert('Welcome Employee: ' + res.data.username);
 					window.location.assign('/');
 				} else if (res.data.role === 'Employee' && res.data.status !== 'Active') {

@@ -38,6 +38,15 @@ export default class UserRegister extends Component {
 					localStorage.setItem('_id', _id);
 					alert('Welcome User: ' + res.data.username);
 					window.location.assign('/');
+				} else if (res.data.role === 'Admin') {
+					role += JSON.stringify(res.data.role);
+					status += JSON.stringify(res.data.status);
+					_id += JSON.stringify(res.data._id);
+					localStorage.setItem('role', role);
+					localStorage.setItem('status', status);
+					localStorage.setItem('_id', _id);
+					alert('Welcome Admin: ' + res.data.username);
+					window.location.assign('/dashboard');
 				} else if (res.data.role === 'Employee' && res.data.status === 'Active') {
 					role += JSON.stringify(res.data.role);
 					status += JSON.stringify(res.data.status);
@@ -52,7 +61,7 @@ export default class UserRegister extends Component {
 					window.location.assign('/login');
 				} else {
 					alert('Invalid credentials');
-					window.location.assign('/login');
+					// window.location.assign('/login');
 				}
 			});
 	}

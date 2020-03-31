@@ -1,26 +1,50 @@
 import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
-import Logo from '../res/icon.png';
+import Logo from '../res/eagle.png';
 const Navbar = () => {
 	const isLogged = () => {
 		let role = localStorage.getItem('role');
 		let status = localStorage.getItem('status');
-
+		role = JSON.parse(role);
 		if (role && status) {
-			return (
-				<li className='nav-item'>
-					<Link
-						onClick={() => {
-							window.location.assign('/login');
-							localStorage.clear();
-						}}
-						to='/'
-						className='nav-link'
-					>
-						Logout
-					</Link>
-				</li>
-			);
+			if (role === 'Admin') {
+				return (
+					<Fragment>
+						<li className='nav-item'>
+							<Link to='/dashboard' className='nav-link text-danger'>
+								Dashboard
+							</Link>
+						</li>
+						<li>
+							<Link
+								onClick={() => {
+									window.location.assign('/login');
+									localStorage.clear();
+								}}
+								to='/login'
+								className='nav-link'
+							>
+								Logout
+							</Link>
+						</li>
+					</Fragment>
+				);
+			} else if (role === 'User') {
+				return (
+					<li className='nav-item'>
+						<Link
+							onClick={() => {
+								window.location.assign('/login');
+								localStorage.clear();
+							}}
+							to='/login'
+							className='nav-link'
+						>
+							Logout
+						</Link>
+					</li>
+				);
+			}
 		} else {
 			return (
 				<Fragment>
@@ -43,8 +67,10 @@ const Navbar = () => {
 		<nav className='navbar navbar-expand-sm navbar-light bg-light'>
 			<Link to='/' className='navbar-brand'>
 				<div className='d-flex'>
-					<img style={{ height: '30px', width: '30px' }} src={Logo} alt='corp logo' />
-					<h5>KryptoForce</h5>
+					<img style={{ height: '30px', width: 'auto' }} src={Logo} alt='corp logo' />
+					<h5>
+						Krypto<span className='text-danger'>Force</span>
+					</h5>
 				</div>
 			</Link>
 			<button

@@ -29,9 +29,7 @@ export default class Appointment extends Component {
 
 	isLogged() {
 		let _id = localStorage.getItem('_id');
-		if (!_id) {
-			alert('You must login first!');
-		} else {
+		if (_id) {
 			_id = JSON.parse(_id);
 			this.setState(() => ({ userId: _id }));
 			axios

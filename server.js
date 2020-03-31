@@ -278,6 +278,15 @@ app.delete('/issue/:id', (req, res) => {
 });
 
 // ────────────────────────────────────────────────────────────────────────────────
+app.get('/user', (req, res) => {
+	User.find({}, (err, data) => {
+		try {
+			res.send(data);
+		} catch (error) {
+			console.log(error);
+		}
+	});
+});
 
 app.put('/user/:id', (req, res) => {
 	uploadUserStorage(req, res, (err) => {

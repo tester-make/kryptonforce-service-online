@@ -45,7 +45,6 @@ for running client :
 
 ## Features
 List of features ready and TODOs for future development
-* Employee asigned task
 * User appointment system
 
 To-do list:
@@ -53,7 +52,8 @@ To-do list:
 * Source code refactor
 * Switch login statement (currently using if statement)
 * Toast popup
-
+* Employee asigned task
+* Appointment bug handling (Require profile setup)
 ## Status
 Project is: 
 

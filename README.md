@@ -51,10 +51,8 @@ List of features ready and TODOs for future development
 To-do list:
 * Admin visual data analysis
 * Source code refactor
-<<<<<<< HEAD
-=======
-* Switch login statement
->>>>>>> 6ec0017cdd12d66b7a10c80c7bbbb9e9b8da45f8
+* Switch login statement (currently using if statement)
+* Toast popup
 
 ## Status
 Project is: 

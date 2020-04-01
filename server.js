@@ -41,17 +41,21 @@ const UserSchema = new mongoose.Schema({
 	}
 });
 
+const User = mongoose.model('User', UserSchema);
+
 const SparePartSchema = new mongoose.Schema({
 	title: String,
+	brand: String,
 	price: Number,
 	description: String,
 	quantity: Number,
-	image: String
+	image: {
+		type: String,
+		default: 'question-mark.png'
+	}
 });
 
 const Sparepart = mongoose.model('Sparepart', SparePartSchema);
-
-const User = mongoose.model('User', UserSchema);
 
 const IssueSchema = new mongoose.Schema({
 	userId: String,
@@ -87,6 +91,15 @@ const userStorage = multer.diskStorage({
 });
 
 var uploadUserStorage = multer({ storage: userStorage }).single('image');
+
+const sparepartStorage = multer.diskStorage({
+	destination: './client/public/uploads/spareparts/',
+	filename: function(req, file, cb) {
+		cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+	}
+});
+
+var uploadSparepartStorage = multer({ storage: sparepartStorage }).single('image');
 
 const issueStorage = multer.diskStorage({
 	destination: './client/public/uploads/proofOfPayments/',
@@ -167,23 +180,39 @@ app.post('/login', (req, res) => {
 
 // ────────────────────────────────────────────────────────────────────────────────
 
+// Sparepart.create({
+// 	title: 'd',
+// 	price: 3,
+// 	brand: 'd',
+// 	description: 'd',
+// 	quantity: 2,
+// 	image: 'd'
+// });
+
 app.post('/sparepart', (req, res) => {
-	Sparepart.create(
-		{
-			title: req.body.title,
-			price: req.body.price,
-			description: req.body.description,
-			quantity: req.body.quantity
-			// image: req.file.image,
-		},
-		(err, data) => {
-			try {
-				res.send(data);
-			} catch (error) {
-				console.log(error);
-			}
+	uploadSparepartStorage(req, res, (err) => {
+		if (err) {
+			console.log(err);
+		} else {
+			Sparepart.create(
+				{
+					title: req.body.title,
+					price: req.body.price,
+					brand: req.body.brand,
+					description: req.body.description,
+					quantity: req.body.quantity,
+					image: req.file.filename
+				},
+				(err, data) => {
+					try {
+						res.send(data);
+					} catch (error) {
+						console.log(error);
+					}
+				}
+			);
 		}
-	);
+	});
 });
 
 app.get('/sparepart', (req, res) => {
@@ -197,23 +226,30 @@ app.get('/sparepart', (req, res) => {
 });
 
 app.put('/sparepart/:id', (req, res) => {
-	Sparepart.findByIdAndUpdate(
-		req.params.id,
-		{
-			title: req.body.title,
-			price: req.body.price,
-			description: req.body.description,
-			quantity: req.body.quantity
-			// image: req.file.image,
-		},
-		(err, data) => {
-			try {
-				res.send(data);
-			} catch (error) {
-				console.log(error);
-			}
+	uploadSparepartStorage(req, res, (err) => {
+		if (err) {
+			console.log(err);
+		} else {
+			Sparepart.findByIdAndUpdate(
+				req.params.id,
+				{
+					title: req.body.title,
+					price: req.body.price,
+					brand: req.body.brand,
+					description: req.body.description,
+					quantity: req.body.quantity,
+					image: req.file.filename
+				},
+				(err, data) => {
+					try {
+						res.send(data);
+					} catch (error) {
+						console.log(error);
+					}
+				}
+			);
 		}
-	);
+	});
 });
 
 app.delete('/sparepart/:id', (req, res) => {

@@ -59,7 +59,6 @@ export default class UserRegister extends Component {
 	render() {
 		return (
 			<div className='d-flex align-content-center'>
-				<button onClick={() => console.log(this.state)}>Get</button>
 				<div className='container'>
 					<div className='row justify-content-center '>
 						<div className='col col-md-12'>

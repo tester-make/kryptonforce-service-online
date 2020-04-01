@@ -5,7 +5,12 @@ const EmployeeAcceptance = () => {
 	const [ employee, setEmployee ] = useState([]);
 
 	useEffect(() => {
-		axios.get('/user').then((res) => setEmployee(res.data)).catch((error) => console.log(error));
+		axios
+			.get('/employee')
+			.then((res) => {
+				setEmployee(res.data);
+			})
+			.catch((error) => console.log(error));
 	});
 
 	const handleEmployeeAccept = (_id) => {
@@ -39,7 +44,7 @@ const EmployeeAcceptance = () => {
 									<div className='table-responsive'>
 										<table className='table table-bordered' id='dataTable' width='100%' cellSpacing={0}>
 											<thead>
-												<tr>
+												<tr className='text-center'>
 													<th>Name</th>
 													<th>Email</th>
 													<th>Age</th>
@@ -52,50 +57,48 @@ const EmployeeAcceptance = () => {
 											</thead>
 											<tbody>
 												{employee.map((data) => {
-													if (data.role === 'Employee') {
-														return (
-															<tr key={data._id}>
-																<td>{`${data.firstName} ${data.lastName}`}</td>
-																<td>{data.email}</td>
-																<td>{data.age}</td>
-																<td className='text-center'>
-																	<img
-																		style={{ width: '100px', height: '100px' }}
-																		src={`${process.env.PUBLIC_URL}/uploads/users/${data.image}`}
-																		alt={data._id + "'s image"}
-																	/>
-																</td>
-																<td>{data.phoneNumber}</td>
-																<td>{data.address}</td>
-																<td>{data.country}</td>
-																<td>
-																	<div class='col d-flex justify-content-around'>
-																		{data.status !== 'Active' && (
-																			<Fragment>
-																				<button
-																					onClick={() => {
-																						handleEmployeeAccept(data._id);
-																					}}
-																					className='btn btn-outline-success'
-																				>
-																					Accept
-																				</button>
-																				<button
-																					onClick={() => {
-																						handleEmployeeReject(data._id);
-																					}}
-																					className='btn btn-outline-danger'
-																				>
-																					Reject
-																				</button>
-																			</Fragment>
-																		)}
-																		{data.status === 'Active' && <span className='text-success'>Active</span>}
-																	</div>
-																</td>
-															</tr>
-														);
-													}
+													return (
+														<tr key={data._id}>
+															<td>{`${data.firstName} ${data.lastName}`}</td>
+															<td>{data.email}</td>
+															<td>{data.age}</td>
+															<td className='text-center'>
+																<img
+																	style={{ width: '100px', height: '100px' }}
+																	src={`${process.env.PUBLIC_URL}/uploads/users/${data.image}`}
+																	alt={data._id + "'s image"}
+																/>
+															</td>
+															<td>{data.phoneNumber}</td>
+															<td>{data.address}</td>
+															<td>{data.country}</td>
+															<td>
+																<div class='col d-flex justify-content-around'>
+																	{data.status !== 'Active' && (
+																		<Fragment>
+																			<button
+																				onClick={() => {
+																					handleEmployeeAccept(data._id);
+																				}}
+																				className='btn btn-outline-success'
+																			>
+																				Accept
+																			</button>
+																			<button
+																				onClick={() => {
+																					handleEmployeeReject(data._id);
+																				}}
+																				className='btn btn-outline-danger'
+																			>
+																				Reject
+																			</button>
+																		</Fragment>
+																	)}
+																	{data.status === 'Active' && <span className='text-success'>Active</span>}
+																</div>
+															</td>
+														</tr>
+													);
 												})}
 											</tbody>
 										</table>

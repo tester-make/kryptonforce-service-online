@@ -373,6 +373,16 @@ app.delete('/user/:id', (req, res) => {
 });
 // ────────────────────────────────────────────────────────────────────────────────
 
+app.get('/employee', (req, res) => {
+	User.find({ role: { $regex: /Employee/, $options: 'i' } }, (err, employee) => {
+		try {
+			res.send(employee);
+		} catch (error) {
+			console.log(error);
+		}
+	});
+});
+
 app.put('/employee/:id', (req, res) => {
 	User.findByIdAndUpdate(
 		req.params.id,

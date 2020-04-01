@@ -19,7 +19,8 @@ export default class Appointment extends Component {
 			paymentMethod: 'Manual payment',
 			cardName: '',
 			cardNumber: 0,
-			cvv: ''
+			cvv: '',
+			status: 'Unresolved'
 		};
 	}
 
@@ -67,10 +68,11 @@ export default class Appointment extends Component {
 				paymentMethod: this.state.paymentMethod,
 				cardName: this.state.cardName,
 				cardNumber: this.state.cardNumber,
-				cvv: this.state.cvv
+				cvv: this.state.cvv,
+				status: this.state.status
 			})
 			.then((res) => {
-				console.log(res);
+				alert('Your issue has saved successfully');
 				window.location.assign('/');
 			})
 			.catch((err) => console.log(err));
@@ -305,7 +307,7 @@ export default class Appointment extends Component {
 												</div>
 												<div className='d-flex justify-content-center'>
 													<div className='col'>
-														<button type='submit' onClick={() => console.log(this.state)} className='btn btn-primary btn-block'>
+														<button type='submit' className='btn btn-primary btn-block'>
 															Make an appointment
 														</button>
 													</div>

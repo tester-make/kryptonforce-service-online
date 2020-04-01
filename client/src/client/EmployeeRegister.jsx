@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Logo from '../res/icon.png';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 export default class UserRegister extends Component {
@@ -7,31 +6,52 @@ export default class UserRegister extends Component {
 		super();
 		this.handleChange = this.handleChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
+		this.handleFileChange = this.handleFileChange.bind(this);
 		this.state = {
-			email: '',
 			username: '',
 			password: '',
-			confirmPassword: ''
+			confirmPassword: '',
+			firstName: '',
+			lastName: '',
+			description: '',
+			email: '',
+			age: 0,
+			address: '',
+			country: '',
+			phoneNumber: 0,
+			role: 'Employee',
+			status: 'Inactive',
+			image: null
 		};
 	}
 	handleChange(e) {
 		this.setState({ [e.target.name]: e.target.value });
 	}
+	handleFileChange(e) {
+		this.setState({ image: e.target.files[0] });
+	}
 	handleSubmit(e) {
 		e.preventDefault();
+		const formData = new FormData();
+		formData.append('username', this.state.username);
+		formData.append('password', this.state.password);
+		formData.append('firstName', this.state.firstName);
+		formData.append('lastName', this.state.lastName);
+		formData.append('description', this.state.description);
+		formData.append('email', this.state.email);
+		formData.append('age', this.state.age);
+		formData.append('address', this.state.address);
+		formData.append('country', this.state.country);
+		formData.append('phoneNumber', this.state.phoneNumber);
+		formData.append('role', this.state.role);
+		formData.append('status', this.state.status);
+		formData.append('image', this.state.image);
+		const config = { headers: { 'content-type': 'multipart/form-data' } };
 		if (this.state.password === this.state.confirmPassword) {
-			axios
-				.post('http://localhost:2020/register', {
-					email: this.state.email,
-					username: this.state.username,
-					password: this.state.password,
-					role: 'Employee',
-					status: 'Inactive'
-				})
-				.then(() => {
-					alert('You must wait until accepted! please check your email');
-					window.location.assign('/');
-				});
+			axios.post('/register-employee', formData, config).then(() => {
+				alert('You must wait until accepted! please check your email');
+				window.location.assign('/login');
+			});
 		} else {
 			console.log('Password must be same!');
 		}
@@ -39,21 +59,13 @@ export default class UserRegister extends Component {
 	render() {
 		return (
 			<div className='d-flex align-content-center'>
-				<div className='container pagination-centered'>
-					<div className='row  justify-content-center '>
-						<div className='col col-md-6'>
+				<button onClick={() => console.log(this.state)}>Get</button>
+				<div className='container'>
+					<div className='row justify-content-center '>
+						<div className='col col-md-12'>
 							<div className='card'>
-								<div className='row justify-content-center'>
-									<div className='col-md-2 '>
-										<img src={Logo} className='card-img-top' alt='...' />
-									</div>
-								</div>
 								<div className='card-body'>
 									<form onSubmit={this.handleSubmit}>
-										<div className='form-group'>
-											<label htmlFor='email'>Email</label>
-											<input onChange={this.handleChange} type='text' name='email' id='email' className='form-control' required />
-										</div>
 										<div className='form-group'>
 											<label htmlFor='username'>Username</label>
 											<input
@@ -85,6 +97,113 @@ export default class UserRegister extends Component {
 												id='confirmPassword'
 												className='form-control'
 												required
+											/>
+										</div>
+										<hr />
+										<div className='form-group'>
+											<label htmlFor='firstName'>First Name</label>
+											<input
+												onChange={this.handleChange}
+												value={this.state.firstName}
+												type='text'
+												name='firstName'
+												id='firstName'
+												className='form-control'
+												required
+											/>
+										</div>
+										<div className='form-group'>
+											<label htmlFor='lastName'>Last Name</label>
+											<input
+												onChange={this.handleChange}
+												value={this.state.lastName}
+												type='text'
+												name='lastName'
+												id='lastName'
+												className='form-control'
+												required
+											/>
+										</div>
+										<div className='form-group'>
+											<label htmlFor='description'>Description</label>
+											<textarea
+												onChange={this.handleChange}
+												value={this.state.description}
+												name='description'
+												id='description'
+												className='form-control'
+												required
+											/>
+										</div>
+										<div className='form-group'>
+											<label htmlFor='email'>Email</label>
+											<input
+												onChange={this.handleChange}
+												value={this.state.email}
+												type='email'
+												name='email'
+												id='email'
+												className='form-control'
+												required
+											/>
+										</div>
+										<div className='form-group'>
+											<label htmlFor='age'>Age</label>
+											<input
+												onChange={this.handleChange}
+												value={this.state.age}
+												type='number'
+												name='age'
+												id='age'
+												className='form-control'
+												required
+											/>
+										</div>
+										<div className='form-group'>
+											<label htmlFor='address'>Address</label>
+											<input
+												onChange={this.handleChange}
+												value={this.state.address}
+												type='text'
+												name='address'
+												id='address'
+												className='form-control'
+												required
+											/>
+										</div>
+										<div className='form-group'>
+											<label htmlFor='country'>Country</label>
+											<input
+												onChange={this.handleChange}
+												value={this.state.country}
+												type='text'
+												name='country'
+												id='country'
+												className='form-control'
+												required
+											/>
+										</div>
+										<div className='form-group'>
+											<label htmlFor='phoneNumber'>Phone Number</label>
+											<input
+												onChange={this.handleChange}
+												value={this.state.phoneNumber}
+												type='number'
+												name='phoneNumber'
+												id='phoneNumber'
+												className='form-control'
+												required
+											/>
+										</div>
+										<div className='form-group'>
+											<label htmlFor='image'>Please include your profile picture</label>
+											<input
+												onChange={this.handleFileChange}
+												type='file'
+												className='form-control-file'
+												name='image'
+												id='image'
+												placeholder='Choose File'
 											/>
 										</div>
 										<button type='submit' className='btn btn-primary btn-block'>

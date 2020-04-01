@@ -55,6 +55,7 @@ const User = mongoose.model('User', UserSchema);
 
 const IssueSchema = new mongoose.Schema({
 	userId: String,
+	assignedEmployeeId: String,
 	firstName: String,
 	lastName: String,
 	description: String,
@@ -118,10 +119,43 @@ app.post('/register', (req, res) => {
 	);
 });
 
+app.post('/register-employee', (req, res) => {
+	uploadUserStorage(req, res, (err) => {
+		if (err) {
+			console.log(err);
+		} else {
+			User.create(
+				{
+					username: req.body.username,
+					password: req.body.password,
+					firstName: req.body.firstName,
+					lastName: req.body.lastName,
+					description: req.body.description,
+					email: req.body.email,
+					age: req.body.age,
+					address: req.body.address,
+					country: req.body.country,
+					phoneNumber: req.body.phoneNumber,
+					role: req.body.role,
+					status: req.body.status,
+					image: req.file.filename
+				},
+				(err, user) => {
+					try {
+						res.send(user);
+					} catch (error) {
+						console.log(error);
+					}
+				}
+			);
+		}
+	});
+});
+
 app.post('/login', (req, res) => {
-	User.findOne({ username: req.body.username }, (err, user) => {
+	User.findOne({ username: req.body.username, password: req.body.password }, (err, user) => {
 		try {
-			if (user.username === req.body.username) {
+			if (user.username === req.body.username && user.password === req.body.password) {
 				res.send(user);
 			}
 		} catch (error) {
@@ -192,8 +226,6 @@ app.delete('/sparepart/:id', (req, res) => {
 	});
 });
 
-// ────────────────────────────────────────────────────────────────────────────────
-
 app.get('/issue', (req, res) => {
 	Issue.find({}, (err, issues) => {
 		try {
@@ -219,7 +251,8 @@ app.post('/issue', (req, res) => {
 			paymentMethod: req.body.paymentMethod,
 			cardName: req.body.cardName,
 			cardNumber: req.body.cardNumber,
-			cvv: req.body.cvv
+			cvv: req.body.cvv,
+			status: req.body.status
 		},
 		(err, issue) => {
 			try {
@@ -230,9 +263,11 @@ app.post('/issue', (req, res) => {
 		}
 	);
 });
-
+//
+// ─── UPDATE GET ISSUE BASED ISSUE ID ─────────────────────────────────────────────
+//
 app.get('/issue/:id', (req, res) => {
-	Issue.find({ userId: req.params.id }, (err, data) => {
+	Issue.findById(req.params.id, (err, data) => {
 		try {
 			res.send(data);
 		} catch (error) {
@@ -277,6 +312,49 @@ app.delete('/issue/:id', (req, res) => {
 	});
 });
 
+//
+// ─── UPDATE GET ISSUE BASED USER ID ─────────────────────────────────────────────
+//
+
+app.get('/issue/user/:id', (req, res) => {
+	Issue.find({ userId: req.params.id }, (err, data) => {
+		try {
+			res.send(data);
+		} catch (error) {
+			console.log(error);
+		}
+	});
+});
+
+app.put('/issue/accept/:id', (req, res) => {
+	try {
+		Issue.findByIdAndUpdate(
+			req.params.id,
+			{
+				assignedEmployeeId: req.body.assignedEmployeeId
+			},
+			(err, data) => {
+				try {
+					res.send(data);
+				} catch (error) {
+					console.log(error);
+				}
+			}
+		);
+	} catch (error) {
+		console.log(error);
+	}
+});
+
+app.get('/issue/assigned/:id', (req, res) => {
+	Issue.findOne({ assignedEmployeeId: req.params.id }, (err, issue) => {
+		try {
+			res.send(issue);
+		} catch (error) {
+			console.log(error);
+		}
+	});
+});
 // ────────────────────────────────────────────────────────────────────────────────
 app.get('/user', (req, res) => {
 	User.find({}, (err, data) => {
@@ -327,6 +405,43 @@ app.get('/user/:id', (req, res) => {
 			console.log(error);
 		}
 	});
+});
+
+app.delete('/user/:id', (req, res) => {
+	User.findByIdAndDelete(req.params.id, (err, user) => {
+		try {
+			res.send(user);
+		} catch (error) {
+			console.log(error);
+		}
+	});
+});
+// ────────────────────────────────────────────────────────────────────────────────
+
+app.get('/employee', (req, res) => {
+	User.find({ role: { $regex: /Employee/, $options: 'i' } }, (err, employee) => {
+		try {
+			res.send(employee);
+		} catch (error) {
+			console.log(error);
+		}
+	});
+});
+
+app.put('/employee/:id', (req, res) => {
+	User.findByIdAndUpdate(
+		req.params.id,
+		{
+			status: req.body.status
+		},
+		(err, user) => {
+			try {
+				res.send(user);
+			} catch (error) {
+				console.log(error);
+			}
+		}
+	);
 });
 
 // ────────────────────────────────────────────────────────────────────────────────

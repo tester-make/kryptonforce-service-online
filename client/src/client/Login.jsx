@@ -25,7 +25,6 @@ export default class UserRegister extends Component {
 				//
 				// SHOULD USE SWITCH RATHER THAN IF STATEMENT
 				//
-				console.log(res.data);
 				let role = '';
 				let status = '';
 				let _id = '';
@@ -54,14 +53,27 @@ export default class UserRegister extends Component {
 					localStorage.setItem('role', role);
 					localStorage.setItem('status', status);
 					localStorage.setItem('_id', _id);
-					alert('Welcome Employee: ' + res.data.username);
-					window.location.assign('/');
+					let employeeTaskId = res.data._id;
+					let employeeUsername = res.data.username;
+					axios
+						.get('/issue/assigned/' + employeeTaskId)
+						.then((res) => {
+							if (res.data.status === 'Unresolved') {
+								localStorage.setItem('assignedTaskId', JSON.stringify(res.data._id));
+								alert('You have task assigned');
+								window.location.assign('/employee-task');
+							} else {
+								alert('Welcome Employee: ' + employeeUsername);
+								window.location.assign('/user-issues');
+							}
+						})
+						.catch((error) => console.log(error));
 				} else if (res.data.role === 'Employee' && res.data.status !== 'Active') {
 					alert('Please wait until confirmation from admin!');
 					window.location.assign('/login');
 				} else {
 					alert('Invalid credentials');
-					// window.location.assign('/login');
+					window.location.assign('/login');
 				}
 			});
 	}

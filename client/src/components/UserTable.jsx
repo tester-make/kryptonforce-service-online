@@ -1,10 +1,6 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { Fragment } from 'react';
 
 const UserTable = (props) => {
-	let [ users, setUser ] = useState([]);
-	useEffect(() => {
-		setUser((users = props.users));
-	});
 	return (
 		<Fragment>
 			<div className='card-body'>
@@ -29,7 +25,7 @@ const UserTable = (props) => {
 												</tr>
 											</thead>
 											<tbody>
-												{users.map((data) => {
+												{props.users.map((data) => {
 													return (
 														<tr key={data._id}>
 															<td>{data.username}</td>

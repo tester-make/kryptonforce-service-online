@@ -15,7 +15,12 @@ const Navbar = () => {
 								Dashboard
 							</Link>
 						</li>
-						<li>
+						<li className='nav-item'>
+							<Link to='/employee-acceptance' className='nav-link text-danger'>
+								Employee Registrations
+							</Link>
+						</li>
+						<li className='nav-item'>
 							<Link
 								onClick={() => {
 									window.location.assign('/login');
@@ -29,7 +34,7 @@ const Navbar = () => {
 						</li>
 					</Fragment>
 				);
-			} else if (role === 'User') {
+			} else {
 				return (
 					<li className='nav-item'>
 						<Link

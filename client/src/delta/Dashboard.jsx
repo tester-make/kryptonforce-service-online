@@ -1,11 +1,50 @@
 import React, { Component, Fragment } from 'react';
 import axios from 'axios';
+import { Bar, Line, Pie } from 'react-chartjs-2';
+import UserTable from '../components/UserTable';
 export default class Dashboard extends Component {
 	constructor() {
 		super();
 		this.handleUserData = this.handleUserData.bind(this);
 		this.state = {
-			users: []
+			users: [],
+			barChartData: {
+				labels: [
+					'January',
+					'February',
+					'March',
+					'April',
+					'May',
+					'June',
+					'July',
+					'August',
+					'September',
+					'October',
+					'November',
+					'December'
+				],
+				datasets: [
+					{
+						label: 'Sales Report',
+						backgroundColor: 'rgba(255,99,132,0.2)',
+						borderColor: 'rgba(255,99,132,1)',
+						borderWidth: 1,
+						hoverBackgroundColor: 'rgba(255,99,132,0.4)',
+						hoverBorderColor: 'rgba(255,99,132,1)',
+						data: [ 65, 59, 80, 81, 56, 55, 40, 12, 125, 321, 412, 512 ]
+					}
+				]
+			},
+			pieChartData: {
+				labels: [ 'Indonesia', 'United States', 'China' ],
+				datasets: [
+					{
+						data: [ 300, 50, 100 ],
+						backgroundColor: [ '#c0fff4', '#2f00ff', '#f44242' ],
+						hoverBackgroundColor: [ '#FF6384', '#36A2EB', '#FFCE56' ]
+					}
+				]
+			}
 		};
 	}
 	componentDidMount() {
@@ -96,10 +135,10 @@ export default class Dashboard extends Component {
 							{/* Area Chart Example*/}
 							<div className='card mb-3'>
 								<div className='card-header'>
-									<i className='fa fa-area-chart' /> Area Chart Example
+									<i className='fa fa-area-chart' /> Sales Area Chart
 								</div>
 								<div className='card-body'>
-									<canvas id='myAreaChart' width='100%' height={30} />
+									<Line data={this.state.barChartData} width={80} height={380} options={{ maintainAspectRatio: false }} />
 								</div>
 								<div className='card-footer small text-muted'>Updated yesterday at 11:59 PM</div>
 							</div>
@@ -108,22 +147,22 @@ export default class Dashboard extends Component {
 									{/* Example Bar Chart Card*/}
 									<div className='card mb-3'>
 										<div className='card-header'>
-											<i className='fa fa-bar-chart' /> Bar Chart Example
+											<i className='fa fa-bar-chart' /> Sales Bar Chart
 										</div>
 										<div className='card-body'>
 											<div className='row'>
 												<div className='col-sm-8 my-auto'>
-													<canvas id='myBarChart' width={100} height={50} />
+													<Bar data={this.state.barChartData} />
 												</div>
 												<div className='col-sm-4 text-center my-auto'>
-													<div className='h4 mb-0 text-primary'>$34,693</div>
-													<div className='small text-muted'>YTD Revenue</div>
+													<div className='h4 mb-0 text-primary'>$512</div>
+													<div className='small text-muted'>KF Revenue</div>
 													<hr />
-													<div className='h4 mb-0 text-warning'>$18,474</div>
-													<div className='small text-muted'>YTD Expenses</div>
+													<div className='h4 mb-0 text-warning'>$200</div>
+													<div className='small text-muted'>KF Expenses</div>
 													<hr />
-													<div className='h4 mb-0 text-success'>$16,219</div>
-													<div className='small text-muted'>YTD Margin</div>
+													<div className='h4 mb-0 text-success'>$100</div>
+													<div className='small text-muted'>KF Margin</div>
 												</div>
 											</div>
 										</div>
@@ -377,10 +416,10 @@ export default class Dashboard extends Component {
 									{/* Example Pie Chart Card*/}
 									<div className='card mb-3'>
 										<div className='card-header'>
-											<i className='fa fa-pie-chart' /> Pie Chart Example
+											<i className='fa fa-pie-chart' /> COVID-19 Disease Chart
 										</div>
 										<div className='card-body'>
-											<canvas id='myPieChart' width='100%' height={100} />
+											<Pie data={this.state.pieChartData} />
 										</div>
 										<div className='card-footer small text-muted'>Updated yesterday at 11:59 PM</div>
 									</div>
@@ -440,59 +479,9 @@ export default class Dashboard extends Component {
 								</div>
 							</div>
 							{/* Example DataTables Card*/}
-							<div className='card mb-3'>
-								<div className='card-header'>
-									<i className='fa fa-table' /> User Data Table
-								</div>
-								<div className='card-body'>
-									<div className='table-responsive'>
-										<table className='table table-bordered' id='dataTable' width='100%' cellSpacing={0}>
-											<thead>
-												<tr>
-													<th>Name</th>
-													<th>Email</th>
-													<th>Role</th>
-													<th>Age</th>
-													<th>Phone Number</th>
-													<th>Status</th>
-												</tr>
-											</thead>
-											<tbody>
-												{this.state.users.map((data) => {
-													return (
-														<tr key={data._id}>
-															<td>{data.username}</td>
-															<td>{data.email}</td>
-															<td>{data.role}</td>
-															<td>{data.age ? <span>{data.age}</span> : <span className='text-danger'>Unknown</span>}</td>
-															<td>
-																{data.phoneNumber ? <span>{data.phoneNumber}</span> : <span className='text-danger'>Unknown</span>}
-															</td>
-															{data.status === 'Inactive' && (
-																<td>
-																	<span className='text-warning'>Inactive</span>
-																</td>
-															)}
-															{data.status === 'Active' && (
-																<td>
-																	<span className='text-success'>Active</span>
-																</td>
-															)}
-															{(data.status === 'User' || data.status === 'Admin') && (
-																<td>
-																	<span>{data.status}</span>
-																</td>
-															)}
-														</tr>
-													);
-												})}
-											</tbody>
-										</table>
-									</div>
-								</div>
-								<div className='card-footer small text-muted'>Updated yesterday at 11:59 PM</div>
-							</div>
 						</div>
+						<UserTable users={this.state.users} />
+
 						{/* /.container-fluid*/}
 						{/* /.content-wrapper*/}
 						<footer className='sticky-footer'>

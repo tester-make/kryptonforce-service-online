@@ -5,7 +5,11 @@ import Login from './client/Login';
 import UserRegister from './client/UserRegister';
 import EmployeeRegister from './client/EmployeeRegister';
 import Dashboard from './delta/Dashboard';
+
+//
+// ─── COMPONENTS ─────────────────────────────────────────────────────────────────
 import Navbar from './components/Navbar';
+
 function App() {
 	return (
 		<Router>

@@ -16,7 +16,7 @@
 This project is for additional purposes only, feel free to fork our project and modify into your own
 
 ## Screenshots
-![Example screenshot](/client/public/res/Dashboard Preview.png)
+![Preview](/client/public/res/Dashboard Preview.png?raw=true "Optional Title")
 
 ## Back-End Technologies
 * Express - version 4.17.1

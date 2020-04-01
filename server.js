@@ -153,9 +153,9 @@ app.post('/register-employee', (req, res) => {
 });
 
 app.post('/login', (req, res) => {
-	User.findOne({ username: req.body.username }, (err, user) => {
+	User.findOne({ username: req.body.username, password: req.body.password }, (err, user) => {
 		try {
-			if (user.username === req.body.username) {
+			if (user.username === req.body.username && user.password === req.body.password) {
 				res.send(user);
 			}
 		} catch (error) {

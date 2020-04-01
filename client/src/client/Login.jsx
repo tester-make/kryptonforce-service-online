@@ -54,13 +54,20 @@ export default class UserRegister extends Component {
 					localStorage.setItem('status', status);
 					localStorage.setItem('_id', _id);
 					let employeeTaskId = res.data._id;
-					// axios
-					// 	.get('/issue/assigned/' + employeeTaskId)
-					// 	.then((res) => {
-					// 	})
-					// 	.catch((error) => console.log(error));
-					alert('Welcome Employee: ' + res.data.username);
-					window.location.assign('/user-issues');
+					let employeeUsername = res.data.username;
+					axios
+						.get('/issue/assigned/' + employeeTaskId)
+						.then((res) => {
+							if (res.data.status === 'Unresolved') {
+								localStorage.setItem('assignedTask', JSON.stringify(res.data._id));
+								alert('You have task assigned');
+								window.location.assign('/employee-task');
+							} else {
+								alert('Welcome Employee: ' + employeeUsername);
+								window.location.assign('/user-issues');
+							}
+						})
+						.catch((error) => console.log(error));
 				} else if (res.data.role === 'Employee' && res.data.status !== 'Active') {
 					alert('Please wait until confirmation from admin!');
 					window.location.assign('/login');

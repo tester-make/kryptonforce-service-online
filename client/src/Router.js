@@ -5,7 +5,7 @@ import Login from './client/Login';
 import UserRegister from './client/UserRegister';
 import EmployeeRegister from './client/EmployeeRegister';
 import Dashboard from './delta/Dashboard';
-
+import EmployeeAcceptance from './delta/EmployeeAcceptance';
 //
 // ─── COMPONENTS ─────────────────────────────────────────────────────────────────
 import Navbar from './components/Navbar';
@@ -20,6 +20,8 @@ function App() {
 				<Route exact path='/login' component={Login} />
 				<Route exact path='/register' component={UserRegister} />
 				<Route exact path='/register-employee' component={EmployeeRegister} />
+
+				<Route exact path='/employee-acceptance' component={EmployeeAcceptance} />
 			</Switch>
 		</Router>
 	);

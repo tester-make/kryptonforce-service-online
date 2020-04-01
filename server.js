@@ -118,6 +118,39 @@ app.post('/register', (req, res) => {
 	);
 });
 
+app.post('/register-employee', (req, res) => {
+	uploadUserStorage(req, res, (err) => {
+		if (err) {
+			console.log(err);
+		} else {
+			User.create(
+				{
+					username: req.body.username,
+					password: req.body.password,
+					firstName: req.body.firstName,
+					lastName: req.body.lastName,
+					description: req.body.description,
+					email: req.body.email,
+					age: req.body.age,
+					address: req.body.address,
+					country: req.body.country,
+					phoneNumber: req.body.phoneNumber,
+					role: req.body.role,
+					status: req.body.status,
+					image: req.file.filename
+				},
+				(err, user) => {
+					try {
+						res.send(user);
+					} catch (error) {
+						console.log(error);
+					}
+				}
+			);
+		}
+	});
+});
+
 app.post('/login', (req, res) => {
 	User.findOne({ username: req.body.username }, (err, user) => {
 		try {
@@ -327,6 +360,33 @@ app.get('/user/:id', (req, res) => {
 			console.log(error);
 		}
 	});
+});
+
+app.delete('/user/:id', (req, res) => {
+	User.findByIdAndDelete(req.params.id, (err, user) => {
+		try {
+			res.send(user);
+		} catch (error) {
+			console.log(error);
+		}
+	});
+});
+// ────────────────────────────────────────────────────────────────────────────────
+
+app.put('/employee/:id', (req, res) => {
+	User.findByIdAndUpdate(
+		req.params.id,
+		{
+			status: req.body.status
+		},
+		(err, user) => {
+			try {
+				res.send(user);
+			} catch (error) {
+				console.log(error);
+			}
+		}
+	);
 });
 
 // ────────────────────────────────────────────────────────────────────────────────

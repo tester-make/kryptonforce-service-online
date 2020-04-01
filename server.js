@@ -226,8 +226,6 @@ app.delete('/sparepart/:id', (req, res) => {
 	});
 });
 
-// ────────────────────────────────────────────────────────────────────────────────
-
 app.get('/issue', (req, res) => {
 	Issue.find({}, (err, issues) => {
 		try {
@@ -265,9 +263,11 @@ app.post('/issue', (req, res) => {
 		}
 	);
 });
-
+//
+// ─── UPDATE GET ISSUE BASED ISSUE ID ─────────────────────────────────────────────
+//
 app.get('/issue/:id', (req, res) => {
-	Issue.find({ userId: req.params.id }, (err, data) => {
+	Issue.findById(req.params.id, (err, data) => {
 		try {
 			res.send(data);
 		} catch (error) {
@@ -306,6 +306,20 @@ app.delete('/issue/:id', (req, res) => {
 	Issue.findByIdAndRemove(req.params.id, (err, issue) => {
 		try {
 			res.send(issue);
+		} catch (error) {
+			console.log(error);
+		}
+	});
+});
+
+//
+// ─── UPDATE GET ISSUE BASED USER ID ─────────────────────────────────────────────
+//
+
+app.get('/issue/user/:id', (req, res) => {
+	Issue.find({ userId: req.params.id }, (err, data) => {
+		try {
+			res.send(data);
 		} catch (error) {
 			console.log(error);
 		}

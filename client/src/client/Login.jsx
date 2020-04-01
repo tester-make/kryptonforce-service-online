@@ -59,7 +59,7 @@ export default class UserRegister extends Component {
 						.get('/issue/assigned/' + employeeTaskId)
 						.then((res) => {
 							if (res.data.status === 'Unresolved') {
-								localStorage.setItem('assignedTask', JSON.stringify(res.data._id));
+								localStorage.setItem('assignedTaskId', JSON.stringify(res.data._id));
 								alert('You have task assigned');
 								window.location.assign('/employee-task');
 							} else {

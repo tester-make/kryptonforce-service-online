@@ -21,7 +21,7 @@ export default class UserIssues extends Component {
 			axios
 				.put('/issue/accept/' + issue_id, { assignedEmployeeId: employee_id })
 				.then((res) => {
-					localStorage.setItem('assignedTask', JSON.stringify(issue_id));
+					localStorage.setItem('assignedTaskId', JSON.stringify(issue_id));
 					window.location.assign('/employee-task');
 				})
 				.catch((err) => console.log(err));

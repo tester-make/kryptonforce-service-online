@@ -55,6 +55,7 @@ const User = mongoose.model('User', UserSchema);
 
 const IssueSchema = new mongoose.Schema({
 	userId: String,
+	assignedEmployeeId: String,
 	firstName: String,
 	lastName: String,
 	description: String,
@@ -252,7 +253,8 @@ app.post('/issue', (req, res) => {
 			paymentMethod: req.body.paymentMethod,
 			cardName: req.body.cardName,
 			cardNumber: req.body.cardNumber,
-			cvv: req.body.cvv
+			cvv: req.body.cvv,
+			status: req.body.status
 		},
 		(err, issue) => {
 			try {
@@ -310,6 +312,35 @@ app.delete('/issue/:id', (req, res) => {
 	});
 });
 
+app.put('/issue/accept/:id', (req, res) => {
+	try {
+		Issue.findByIdAndUpdate(
+			req.params.id,
+			{
+				assignedEmployeeId: req.body.assignedEmployeeId
+			},
+			(err, data) => {
+				try {
+					res.send(data);
+				} catch (error) {
+					console.log(error);
+				}
+			}
+		);
+	} catch (error) {
+		console.log(error);
+	}
+});
+
+app.get('/issue/assigned/:id', (req, res) => {
+	Issue.findOne({ assignedEmployeeId: req.params.id }, (err, issue) => {
+		try {
+			res.send(issue);
+		} catch (error) {
+			console.log(error);
+		}
+	});
+});
 // ────────────────────────────────────────────────────────────────────────────────
 app.get('/user', (req, res) => {
 	User.find({}, (err, data) => {

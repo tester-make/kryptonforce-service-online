@@ -11,7 +11,6 @@ export default class Index extends Component {
 	}
 
 	handleModalStatus() {
-		console.log(this.state);
 		this.setState(() => ({ modalStatus: !this.state.modalStatus }));
 	}
 	render() {

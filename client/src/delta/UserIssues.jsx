@@ -14,6 +14,22 @@ export default class UserIssues extends Component {
 		this.handleInitialUsers();
 	}
 
+	handleIssueAccept(issue_id) {
+		let employee_id = localStorage.getItem('_id');
+		if (employee_id) {
+			employee_id = JSON.parse(employee_id);
+			axios
+				.put('/issue/accept/' + issue_id, { assignedEmployeeId: employee_id })
+				.then((res) => {
+					window.location.assign('/employee-task');
+				})
+				.catch((err) => console.log(err));
+		} else {
+			alert('please login as employee');
+			window.location.assign('/');
+		}
+	}
+
 	handleInitialUsers() {
 		axios.get('/issue').then((res) => this.setState({ users: res.data })).catch((err) => console.log(err));
 	}
@@ -43,7 +59,13 @@ export default class UserIssues extends Component {
 									<td>{data.address}</td>
 									<td>{data.country}</td>
 									<td>
-										<button className='btn btn-outline-primary'>Accept</button>
+										{data.assignedEmployeeId ? (
+											<span className='text-success'>Accepted</span>
+										) : (
+											<button className='btn btn-outline-primary' onClick={() => this.handleIssueAccept(data._id)}>
+												Accept
+											</button>
+										)}
 									</td>
 								</tr>
 							);

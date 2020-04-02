@@ -359,6 +359,29 @@ app.put('/issue/sparepart/:id', (req, res) => {
 	);
 });
 
+app.put('/issue/payment/:id', (req, res) => {
+	uploadIssueStorage(req, res, (err) => {
+		if (err) {
+			console.log(err);
+		} else {
+			Issue.findByIdAndUpdate(
+				req.params.id,
+				{
+					status: req.body.status,
+					image: req.file.filename
+				},
+				(err, data) => {
+					try {
+						res.send(data);
+					} catch (error) {
+						console.log(error);
+					}
+				}
+			);
+		}
+	});
+});
+
 //
 // ─── UPDATE: GET ISSUE BASED USER ID ─────────────────────────────────────────────
 //

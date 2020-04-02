@@ -72,7 +72,7 @@ export default class Sparepart extends Component {
 									<td>{sparepart._id.substring(0, 7)}</td>
 									<td>{sparepart.title}</td>
 									<td>{sparepart.brand}</td>
-									<td>{sparepart.price}</td>
+									<td>$ {sparepart.price}</td>
 									<td>{sparepart.description}</td>
 									<td>{sparepart.quantity}</td>
 									<td>

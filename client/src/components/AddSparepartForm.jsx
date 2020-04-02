@@ -43,7 +43,6 @@ export default class SparepartForm extends Component {
 		return (
 			<Fragment>
 				<Modal ariaHideApp={false} isOpen={this.props.modalStatus} onRequestClose={this.props.handleModalStatus}>
-					<button onClick={() => console.log(this.state)}>get</button>
 					<div className='container-fluid'>
 						<form onSubmit={this.handleFormSubmit}>
 							<div className='row d-block'>

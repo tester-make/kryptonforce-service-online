@@ -180,15 +180,6 @@ app.post('/login', (req, res) => {
 
 // ────────────────────────────────────────────────────────────────────────────────
 
-// Sparepart.create({
-// 	title: 'd',
-// 	price: 3,
-// 	brand: 'd',
-// 	description: 'd',
-// 	quantity: 2,
-// 	image: 'd'
-// });
-
 app.post('/sparepart', (req, res) => {
 	uploadSparepartStorage(req, res, (err) => {
 		if (err) {
@@ -262,6 +253,8 @@ app.delete('/sparepart/:id', (req, res) => {
 	});
 });
 
+// ────────────────────────────────────────────────────────────────────────────────
+
 app.get('/issue', (req, res) => {
 	Issue.find({}, (err, issues) => {
 		try {
@@ -300,7 +293,7 @@ app.post('/issue', (req, res) => {
 	);
 });
 //
-// ─── UPDATE GET ISSUE BASED ISSUE ID ─────────────────────────────────────────────
+// ─── UPDATE: GET ISSUE BASED ISSUE ID ─────────────────────────────────────────────
 //
 app.get('/issue/:id', (req, res) => {
 	Issue.findById(req.params.id, (err, data) => {
@@ -348,8 +341,26 @@ app.delete('/issue/:id', (req, res) => {
 	});
 });
 
+app.put('/issue/sparepart/:id', (req, res) => {
+	Issue.findByIdAndUpdate(
+		req.params.id,
+		{
+			status: req.body.status,
+			damages: req.body.damages,
+			total: req.body.total
+		},
+		(err, data) => {
+			try {
+				res.send(data);
+			} catch (error) {
+				console.log(error);
+			}
+		}
+	);
+});
+
 //
-// ─── UPDATE GET ISSUE BASED USER ID ─────────────────────────────────────────────
+// ─── UPDATE: GET ISSUE BASED USER ID ─────────────────────────────────────────────
 //
 
 app.get('/issue/user/:id', (req, res) => {

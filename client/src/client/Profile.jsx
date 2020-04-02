@@ -22,9 +22,11 @@ export default class Profile extends Component {
 			image: null
 		};
 	}
+
 	componentDidMount() {
 		this.handleUserProfile();
 	}
+
 	handleUserProfile() {
 		let _id = localStorage.getItem('_id');
 		if (_id) {

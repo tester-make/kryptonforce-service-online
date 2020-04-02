@@ -5,6 +5,7 @@ import Login from './client/Login';
 import UserRegister from './client/UserRegister';
 import EmployeeRegister from './client/EmployeeRegister';
 import Profile from './client/Profile';
+import IssueList from './client/IssueList';
 // ────────────────────────────────────────────────────────────────────────────────
 import Dashboard from './delta/Dashboard';
 import EmployeeAcceptance from './delta/EmployeeAcceptance';
@@ -24,6 +25,7 @@ function App() {
 				<Route exact path='/login' component={Login} />
 				<Route exact path='/register' component={UserRegister} />
 				<Route exact path='/register-employee' component={EmployeeRegister} />
+				<Route exact path='/issue-list' component={IssueList} />
 
 				<Route exact path='/dashboard' component={Dashboard} />
 				<Route exact path='/sparepart' component={Sparepart} />

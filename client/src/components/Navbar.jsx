@@ -39,20 +39,54 @@ const Navbar = () => {
 						</li>
 					</Fragment>
 				);
+			} else if (role === 'Employee') {
+				return (
+					<Fragment>
+						<li>
+							<Link to='/profile' className='nav-link'>
+								Profile
+							</Link>
+						</li>
+						<li className='nav-item'>
+							<Link
+								onClick={() => {
+									window.location.assign('/login');
+									localStorage.clear();
+								}}
+								to='/login'
+								className='nav-link'
+							>
+								Logout
+							</Link>
+						</li>
+					</Fragment>
+				);
 			} else {
 				return (
-					<li className='nav-item'>
-						<Link
-							onClick={() => {
-								window.location.assign('/login');
-								localStorage.clear();
-							}}
-							to='/login'
-							className='nav-link'
-						>
-							Logout
-						</Link>
-					</li>
+					<Fragment>
+						<li>
+							<Link to='/profile' className='nav-link'>
+								Profile
+							</Link>
+						</li>
+						<li>
+							<Link to='/issue-list' className='nav-link'>
+								My Issues
+							</Link>
+						</li>
+						<li className='nav-item'>
+							<Link
+								onClick={() => {
+									window.location.assign('/login');
+									localStorage.clear();
+								}}
+								to='/login'
+								className='nav-link'
+							>
+								Logout
+							</Link>
+						</li>
+					</Fragment>
 				);
 			}
 		} else {
@@ -63,7 +97,6 @@ const Navbar = () => {
 							Login
 						</Link>
 					</li>
-
 					<li>
 						<Link to='/register' className='nav-link'>
 							Register

@@ -16,7 +16,12 @@ const Navbar = () => {
 							</Link>
 						</li>
 						<li className='nav-item'>
-							<Link to='/employee-acceptance' className='nav-link text-danger'>
+							<Link to='/sparepart' className='nav-link text-info'>
+								Sparepart Table Data
+							</Link>
+						</li>
+						<li className='nav-item'>
+							<Link to='/employee-acceptance' className='nav-link text-success'>
 								Employee Registrations
 							</Link>
 						</li>
